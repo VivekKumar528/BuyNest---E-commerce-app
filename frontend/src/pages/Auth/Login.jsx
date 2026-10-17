@@ -41,7 +41,7 @@ const Login = () => {
 
   return (
     <div>
-      <section className="pl-[10rem] flex flex-wrap">
+      <section className="pl-[10rem] flex flex-wrap ">
         <div className="mr-[4rem] mt-[5rem]">
           <h1 className="text-2xl font-semibold mb-4">Sign In</h1>
 
@@ -97,6 +97,12 @@ const Login = () => {
             </p>
           </div>
         </div>
+
+        <img
+          src="https://images.unsplash.com/photo-1726137569888-ce43cc13e414?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D"
+          alt=""
+          className="h-[65rem] w-[59%] xl:block md:hidden sm:hidden rounded-lg"
+        />
       </section>
     </div>
   );

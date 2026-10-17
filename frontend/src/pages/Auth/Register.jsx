@@ -1,4 +1,4 @@
-import { useeState, useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../components/Loader";
@@ -28,12 +28,30 @@ const Register = () => {
     }
   }, [navigate, redirect, userInfo]);
 
+  const submitHandler = async (e) => {
+    e.preventDefault();
+
+    if (password !== confirmPassword) {
+      toast.error("Passwords do not match");
+    } else {
+      try {
+        const res = await register({ username, email, password }).unwrap();
+        dispatch(setCredientials({ ...res }));
+        navigate(redirect);
+        toast.success("User successfully registered");
+      } catch (error) {
+        console.log(error);
+        toast.error(error.data.message);
+      }
+    }
+  };
+
   return (
     <section className="pl-[10rem] flex flex-wrap">
       <div className="mr-[4rem] mt-[5rem]">
         <h1 className="text-2xl font-semibold mb-4">Register</h1>
 
-        <form className="container w-[40rem]">
+        <form onSubmit={submitHandler} className="container w-[40rem]">
           <div className="my-[2rem]">
             <label
               htmlFor="name"
@@ -45,7 +63,6 @@ const Register = () => {
               type="text"
               id="name"
               className="mt-1 p-2 border rounded w-full"
-              placeholder="Enter name"
               value={username}
               onChange={(e) => setUserName(e.target.value)}
             />
@@ -62,7 +79,6 @@ const Register = () => {
               type="email"
               id="email"
               className="mt-1 p-2 border rounded w-full"
-              placeholder="Enter email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -79,7 +95,6 @@ const Register = () => {
               type="password"
               id="password"
               className="mt-1 p-2 border rounded w-full"
-              placeholder="Enter password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
@@ -96,7 +111,6 @@ const Register = () => {
               type="password"
               id="consfirmPassword"
               className="mt-1 p-2 border rounded w-full"
-              placeholder="Confirm Password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
@@ -119,10 +133,17 @@ const Register = () => {
             <Link
               to={redirect ? `/login?redirect=${redirect}` : "/login"}
               className="text-pink-500 hover:underline"
-            >Login</Link>
+            >
+              Login
+            </Link>
           </p>
         </div>
       </div>
+      <img
+        src="https://images.unsplash.com/photo-1587382850266-6af86dc344c1?q=80&w=765&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D"
+        alt=""
+        className="h-[65rem] w-[59%] xl:block md:hidden sm:hidden rounded-lg"
+      />
     </section>
   );
 };
